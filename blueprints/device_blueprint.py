@@ -42,8 +42,12 @@ def delete_device() -> Response:
         })
 
     device_id = request.form.get("id")
+    device = Device.get_by_id(device_id)
     if device_id:
-        device = Device.get_by_id(device_id)
+        if session.owner != device.owner:
+            return make_response({
+                "error": "permission denied"
+            })
         device.delete()
     else:
         return make_response({
@@ -74,7 +78,7 @@ def get_device_info() -> Response:
     if device_id:
         device_list = [Device.get_by_id(device_id)]
     else:
-        device_list = Device.get_by_owner(session.owner) # TODO check if .all() returns list, else fix to list
+        device_list = Device.get_by_owner(session.owner)  # TODO check if .all() returns list, else fix to list
 
     if not device_list:
         return make_response({

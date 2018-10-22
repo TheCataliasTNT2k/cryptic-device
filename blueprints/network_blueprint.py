@@ -13,6 +13,24 @@ def add_device_to_network() -> Response:
     Add a device to network
     """
 
+    token = request.headers.get('Token')
+    session = Session.find(token)
+    if session is None:
+        return make_response({
+            "error": "token does not exists"
+        })
+
+    network_id = request.form.get("id")
+    network = Network.get_by_id(network_id)
+    if network_id:
+        if session.owner != network.owner:
+            return make_response({
+                "error": "permission denied"
+            })
+    else:
+        return make_response({
+            "error": "id missing, or not existing"
+        })
     # TODO
 
 
@@ -49,8 +67,13 @@ def delete_network() -> Response:
         })
 
     network_id = request.form.get("id")
+    network = Network.get_by_id(network_id)
     if network_id:
-        network = Network.get_by_id(network_id)
+        if session.owner != network.owner:
+            return make_response({
+                "error": "permission denied"
+            })
+
         network.delete()
     else:
         return make_response({
