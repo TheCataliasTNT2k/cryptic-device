@@ -70,3 +70,23 @@ class Network(db.Model):
             "network_owner": self.owner
 
         }
+
+    @staticmethod
+    def get_by_id(id: int) -> "Network":
+        """
+        This function finds a network based on its unique id.
+
+        :param id: Unique network id to search for.
+        :return: A network based on a id.
+        """
+        return Network.query.filter_by(id=id).first()
+
+    @staticmethod
+    def get_by_owner(owner: int) -> "Network":
+        """
+        This function finds a network based on an User id.
+
+        :param id: Unique User id to search for assigned networks.
+        :return: A list of networks based on the User id.
+        """
+        return Network.query.filter_by(id=id).first()

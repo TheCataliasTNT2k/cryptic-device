@@ -11,7 +11,8 @@ from models.device import Device
 from models.auth import User
 from models.auth import Session
 
-from blueprints.info import info
+from blueprints.device_blueprint import devices
+from blueprints.network_blueprint import networks
 
 
 def create_app() -> Flask:
@@ -61,4 +62,5 @@ def register_blueprints(app: Flask) -> None:
     :param app: The "raw" flask app
     :return: None
     """
-    app.register_blueprint(info, url_prefix="/info")
+    app.register_blueprint(devices, url_prefix="/device")
+    app.register_blueprint(networks, url_prefix="/network")

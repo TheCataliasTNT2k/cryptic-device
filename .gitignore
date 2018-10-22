@@ -95,6 +95,7 @@ into it.
 *.manifest
 *.spec
 # Installer logs
+Pipfile.lock
 pip-log.txt
 pip-delete-this-directory.txt
 # Unit test / coverage reports
